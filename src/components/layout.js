@@ -1,44 +1,34 @@
 import PropTypes from "prop-types";
 import React from "react";
-
-import Header from "./header";
+import { graphql, useStaticQuery } from "gatsby";
+import BackgroundImage from "gatsby-background-image";
 
 function Layout({ children }) {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        desktop: file(relativePath: { eq: "background-desktop.png" }) {
+          childImageSharp {
+            fluid(quality: 90, maxWidth: 1920) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+      }
+    `
+  );
+
+  const imageData = data.desktop.childImageSharp.fluid;
+  console.log(`🚀 ~ file: layout.js ~ line 21 ~ Layout ~ imageData`, imageData);
+
   return (
-    <div className="flex flex-col min-h-screen font-sans text-gray-900">
-      <Header />
-
-      <main className="flex-1 w-full max-w-4xl px-4 py-8 mx-auto md:px-8 md:py-16">
-        {children}
-      </main>
-
-      <footer className="bg-blue-700">
-        <nav className="flex justify-between max-w-4xl p-4 mx-auto text-sm md:p-8">
-          <p className="text-white">
-            Created by{` `}
-            <a
-              className="font-bold no-underline"
-              href="https://bryant.io"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Taylor Bryant
-            </a>
-          </p>
-
-          <p>
-            <a
-              className="font-bold text-white no-underline"
-              href="https://github.com/taylorbryant/gatsby-starter-tailwind"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-          </p>
-        </nav>
-      </footer>
-    </div>
+    <BackgroundImage Tag="div" fluid={imageData} backgroundColor={`#000`}>
+      <div className="grid min-h-screen font-sans text-gray-900 place-items-center">
+        <main className="flex-1 w-full max-w-4xl px-4 py-8 mx-auto md:px-8 md:py-16">
+          {children}
+        </main>
+      </div>
+    </BackgroundImage>
   );
 }
 
