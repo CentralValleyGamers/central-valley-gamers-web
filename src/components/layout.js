@@ -19,7 +19,6 @@ function Layout({ children }) {
   );
 
   const imageData = data.desktop.childImageSharp.fluid;
-  console.log(`🚀 ~ file: layout.js ~ line 21 ~ Layout ~ imageData`, imageData);
 
   return (
     <BackgroundImage Tag="div" fluid={imageData} backgroundColor={`#000`}>
